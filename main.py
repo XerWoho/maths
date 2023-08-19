@@ -4,10 +4,11 @@ from modes.utils.streak_score import streak
 from lib.main_menu import chooser_menu
 from lib.exiting import exit
 from lib.get_user_history import get_user_history
+from lib.login_register import login_register
 
 import os
 import json
-import uuid
+import sys
 
 class main:
     def __init__(self):
@@ -16,44 +17,26 @@ class main:
         self.welcomed = False
         self.game_started = False
 
-        self.username = None
-        self.unique_id =  uuid.uuid4().hex
+        self.unique_id = None
         self.longest_streak = 0
         self.history = []
 
         main.collect_user_info(self)
+        return
 
     def collect_user_info(self):
-        self.username = input("Enter in your username:\n")
+        while self.unique_id is None:
+            user = login_register()
+
+            if user.uuid != None:
+                self.unique_id = user.uuid  
+            else:
+                user = login_register()
+
+
         os.system('cls' if os.name == 'nt' else 'clear')
-
-        try:
-            with open('users.json', 'r') as file:
-                try:
-                    data = json.load(file)
-                except json.JSONDecodeError as e:
-                    data = {}
-        except FileNotFoundError:
-            data = {}
-
-        new_user = {
-            'username': self.username, 
-            'uuid': self.unique_id,
-            'longest_streak': self.longest_streak,
-            'history': [],
-        }
-
-        try:
-            data["users"].append(new_user)
-        except:
-            data["users"] = []
-            data["users"].append(new_user)
-
-        with open('users.json', 'w') as file:
-            json.dump(data, file, indent=4)
-
-        print(f"Alright {self.username}")
         main.start(self)
+
 
     def start(self):
         while True:

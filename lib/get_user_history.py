@@ -19,6 +19,6 @@ def get_user_history(uuid):
                 Gamemode: {history["game_mode"]},
                 Answer: {history["answer"]},
                 Solution: {history["solution"]}
-                TimeToAnswer: {history["TTA"]}
+                TimeToAnswer: {history["TTA"]}s
                 ''')
     

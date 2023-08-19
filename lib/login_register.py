@@ -99,11 +99,18 @@ class login_register:
                     print("Qutting...")
                     exit()
 
+                user_found = False
                 for user in data["users"]:
                     if user["username"] == self.username:
                         os.system('cls' if os.name == 'nt' else 'clear')
+                        user_found = True  
                         user = user
 
+                if not user_found:
+                    os.system('cls' if os.name == 'nt' else 'clear')
+                    print("Invalid credentials.")
+                    continue
+            
                 if bcrypt.checkpw(user_password.encode('utf-8'), user["password"].encode('utf-8')):
                     self.uuid = user["uuid"]
                     break

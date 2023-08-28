@@ -7,8 +7,6 @@ from lib.get_user_history import get_user_history
 from lib.login_register import login_register
 
 import os
-import json
-import sys
 
 class main:
     def __init__(self):

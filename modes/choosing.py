@@ -9,8 +9,8 @@ from colorama import Fore, Style, init
 init()
 
 import time
-import sys
 import os
+import sys
 from lib.update_user_streak import update_user_streak
 from lib.update_user_history import update_user_history
 
@@ -26,8 +26,9 @@ class ChoosingGame:
 
         self.start_time = time.time()
         self.formula = formula
-        self.right_answer = modify_formula(formula).get_right_answer().replace(" ", "")
+        self.formula_less_v = modify_formula(self.formula).steps[0]
 
+        self.right_answer = modify_formula(formula).get_right_answer().replace(" ", "")
         self.list = []
 
         generated = generate_list_answers(formula)
@@ -36,7 +37,7 @@ class ChoosingGame:
         self.user_answer = None
 
         print('Whats this vertex form when changed in to the standard form?')
-        print(self.formula, end="\n\n")
+        print(self.formula_less_v if len(sys.argv) < 2 else self.formula, end="\n\n")
 
         ChoosingGame.present_possible_answers(self)
     
@@ -71,10 +72,13 @@ class ChoosingGame:
             streak.inc_point()
             print(Fore.GREEN + f'Youre right! Took you {round(end_time - self.start_time, 2)}s' + Style.RESET_ALL)
 
-            print(f'Formula: {self.formula}')
+            print(f'Formula: {self.formula_less_v if len(sys.argv) < 2 else self.formula}')
             print('Steps:')
 
             steps = modify_formula(self.formula).steps
+            if len(sys.argv) < 2:
+                steps = steps[1:]
+
             for step in steps:
                 print(step)
 
@@ -95,10 +99,13 @@ class ChoosingGame:
 
             print(Fore.RED + f'Wrong! Took you {round(end_time - self.start_time, 2)}s' + Style.RESET_ALL)
 
-            print(f'Formula: {self.formula}')
+            print(f'Formula: {self.formula_less_v if len(sys.argv) < 2 else self.formula}')
             print('Steps:')
 
             steps = modify_formula(self.formula).steps
+            if len(sys.argv) < 2:
+                steps = steps[1:]
+            
             for step in steps:
                 print(step)
             

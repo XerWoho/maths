@@ -7,6 +7,7 @@ init()
 
 import time
 import os
+import sys
 from lib.update_user_streak import update_user_streak
 from lib.update_user_history import update_user_history
 
@@ -22,12 +23,15 @@ class TypingGame:
 
         self.start_time = time.time()
         self.formula = formula
+        self.formula_less_v = modify_formula(self.formula).steps[0]
+
+
         self.right_answer = modify_formula(formula).get_right_answer().replace(" ", "")
         self.right_answer_modified = self.right_answer.replace("-0", "+0")
 
 
         print('Whats this vertex form when changed in to the standard form ?')
-        print(self.formula, end="\n\n")
+        print(self.formula_less_v if len(sys.argv) < 2 else self.formula, end="\n\n")
 
         try:
             answer = input("Enter!\n\n").replace(" ", "")
@@ -66,9 +70,12 @@ class TypingGame:
 
         
 
-            print(f'Formula: {self.formula}')
+            print(f'Formula: {self.formula_less_v if len(sys.argv) < 2 else self.formula}')
             print('Steps:')
             steps = modify_formula(self.formula).steps
+            if len(sys.argv) < 2:
+                steps = steps[1:]
+
             for step in steps:
                 print(step)
 
@@ -89,9 +96,12 @@ class TypingGame:
 
             print(Fore.RED + f'Wrong! Took you {round(end_time - self.start_time, 2)}s' + Style.RESET_ALL)
 
-            print(f'Formula: {self.formula}')
+            print(f'Formula: {self.formula_less_v if len(sys.argv) < 2 else self.formula}')
             print('Steps:')
             steps = modify_formula(self.formula).steps
+            if len(sys.argv) < 2:
+                steps = steps[1:]
+
             for step in steps:
                 print(step)
 

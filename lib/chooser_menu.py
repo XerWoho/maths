@@ -1,21 +1,25 @@
 from colorama import Fore, Style
 import msvcrt
 import os
+import sys
 
 from lib.exiting import exit
 from modes.utils.streak_score import streak
+from lib.modify_formula import modify_formula
 
 class chooser_menu:
     def __init__(self, options, formula):
         self.options = options
         self.formula = formula
+        self.formula_less_v = modify_formula(self.formula).steps[0]
+
         self.selected = 0
 
     def display_menu(self):
         os.system('cls' if os.name == 'nt' else 'clear')
 
-        print('What is the standard form from this vertex form?')
-        print(f'{self.formula}\n')
+        print('Whats is the standard form from this vertex form?')
+        print(f'{self.formula_less_v if len(sys.argv) < 2 else self.formula}\n')
         for i, option in enumerate(self.options):
             if i == self.selected:
                 print(Fore.LIGHTCYAN_EX + "> ", option + Style.RESET_ALL)
